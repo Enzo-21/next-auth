@@ -43,7 +43,7 @@ const register = async (values: z.infer<typeof RegisterSchema>) => {
     const verificationToken = await TokensService.generateVerificationToken(email)
     
     if (verificationToken) {     
-        await sendVerificationEmail(verificationToken.email, verificationToken.token)
+        await sendVerificationEmail(name, verificationToken.email, verificationToken.token)
     } else {
     return {error: "We could not send an email. Please try again"}
     }

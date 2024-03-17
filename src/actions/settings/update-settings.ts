@@ -12,8 +12,6 @@ import bcrypt from 'bcryptjs'
 export const updateSettings = async (
     values: z.infer<typeof SettingsSchema>
 ) => {    
-
-    console.log(values);
     
 
     // Check if there's a user in the session
@@ -43,8 +41,9 @@ export const updateSettings = async (
 
         const verificationToken = await TokensService.generateVerificationToken(values.email)
 
+
         if (verificationToken) {
-            await sendVerificationEmail(verificationToken.email, verificationToken.token)
+            await sendVerificationEmail(user.name ,verificationToken.email, verificationToken.token)
         } else {
             return { error: 'An unexpected error occurred' }
         }

@@ -1,20 +1,19 @@
 'use client'
 
-import { useForm } from "react-hook-form"
-import AuthCardWrapper from "../cards/auth-card-wrapper"
-import * as z from "zod"
-import { ResetPasswordSchema} from "../../../schemas"
+import { createNewPassword } from "@/actions/auth/reset-password"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form"
-import { Input } from "../../ui/input"
-import { Button } from "../../ui/button"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import { useSearchParams } from "next/navigation"
+import { useState, useTransition } from "react"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+import { ResetPasswordSchema } from "../../../schemas"
 import FormError from "../../indicators/form-error"
 import FormSuccess from "../../indicators/form-success"
-import { login } from "../../../actions/auth/login"
-import { useState, useTransition } from "react"
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
-import { createNewPassword, sendResetPasswordEmail } from "@/actions/auth/reset-password"
-import { useSearchParams } from "next/navigation"
+import { Button } from "../../ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form"
+import { Input } from "../../ui/input"
+import AuthCardWrapper from "../cards/auth-card-wrapper"
 
 const ResetPasswordForm = () => {
 

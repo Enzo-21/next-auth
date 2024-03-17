@@ -24,7 +24,7 @@ const sendResetPasswordEmail = async (values: z.infer<typeof ForgotPasswordSchem
     const resetPasswordToken = await TokensService.generatePasswordResetToken(email)
 
     if (resetPasswordToken) {
-        await sendPasswordResetEmail(resetPasswordToken.email, resetPasswordToken.token)
+        await sendPasswordResetEmail(existingUser.name, resetPasswordToken.email, resetPasswordToken.token)
     } else {
         return { error: "We could not send an email. Please try again" }
     }

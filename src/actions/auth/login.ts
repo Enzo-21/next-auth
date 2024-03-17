@@ -90,7 +90,7 @@ const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string) 
             if (!twoFactorAuthenticationCode) {
                 return { error: 'Something went wrong' }
             }
-            await send2FAEmail(existingUser.email, twoFactorAuthenticationCode.token)
+            await send2FAEmail(existingUser.name, existingUser.email, twoFactorAuthenticationCode.token)
 
             // This will be returned to the frontend to continue the login flow with 2FA
             return { twoFactorAuthentication: true, success: "Please enter the code we've sent to your email" }
