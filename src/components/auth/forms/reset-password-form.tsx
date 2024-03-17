@@ -1,0 +1,91 @@
+'use client'
+
+import { useForm } from "react-hook-form"
+import AuthCardWrapper from "../cards/auth-card-wrapper"
+import * as z from "zod"
+import { ResetPasswordSchema} from "../../../schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form"
+import { Input } from "../../ui/input"
+import { Button } from "../../ui/button"
+import FormError from "../../indicators/form-error"
+import FormSuccess from "../../indicators/form-success"
+import { login } from "../../../actions/auth/login"
+import { useState, useTransition } from "react"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import { createNewPassword, sendResetPasswordEmail } from "@/actions/auth/reset-password"
+import { useSearchParams } from "next/navigation"
+
+const ResetPasswordForm = () => {
+
+  const searchParams = useSearchParams()
+  const resetPasswordToken = searchParams.get('token')
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string | undefined>("")
+  const [success, setSuccess] = useState<string | undefined>("")
+
+  const form = useForm<z.infer<typeof ResetPasswordSchema>>({
+    resolver: zodResolver(ResetPasswordSchema),
+    defaultValues: {
+      password: ''
+    }
+  })
+
+  const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
+
+    // Everytime we submit we should clear the previous errors
+    setError(''); setSuccess('')
+
+
+    startTransition(() => {
+      createNewPassword(values, resetPasswordToken).then((data: any) => {
+        if (data) {
+          setError(data.error)
+          setSuccess(data.success)
+        }
+      })
+    })
+  }
+
+  return (
+    <AuthCardWrapper
+      headerLabel="Reset your password"
+      backButtonLabel="Back to login"
+      backButtonHref="/auth/login">
+      <Form {...form}>
+        <form
+          className="space-y-6"
+          onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-4">
+            {/* New Password input */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>New Password</FormLabel>
+                  <FormControl>
+                    <Input disabled={isPending} {...field} type="password" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+          </div>
+
+          {/* Messages */}
+          <FormError message={error} />
+          <FormSuccess message={success} />
+
+          <Button disabled={isPending} type="submit" className="w-full">
+            {isPending ? <DotsHorizontalIcon /> : 'Confirm new password'}
+          </Button>
+
+        </form>
+      </Form>
+    </AuthCardWrapper>
+  )
+}
+
+export default ResetPasswordForm
