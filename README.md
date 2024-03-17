@@ -21,7 +21,14 @@ npm run dev
 
     Make sure you use 'YOUR_APP_DOMAIN/api/auth/callback/YOUR_PROVIDER' for callback urls. Eg: http://localhost:3000/api/auth/callback/google
 
-4 - Open [http://localhost:3000](http://localhost:3000) with your browser to see the app.
+4 - Set up prisma by running:
+
+```bash
+npx prisma generate && npx prisma db push
+
+```
+
+5 - Open [http://localhost:3000](http://localhost:3000) with your browser to see the app.
 
 ## Contributing
 
