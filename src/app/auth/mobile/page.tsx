@@ -9,7 +9,7 @@ import FormError from '@/components/indicators/form-error';
 import FormSuccess from '@/components/indicators/form-success';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { signOut } from 'next-auth/react';
-import { generateToken } from '@/lib/tokenManager';
+import { TokensService } from '@/services/tokens-service';
 
 const MobileAuth = () => {
 
@@ -41,7 +41,7 @@ const router = useRouter()
 
       if (!token) {
         //Dummy token generation
-        const token = await generateToken(user.id as string)
+        const token = await TokensService.getAuthToken(user.id as string)
         router.push(`${window.location.href}?accessToken=${token}`)
         return
       }
