@@ -8,7 +8,13 @@ import Github from 'next-auth/providers/github'
 
 export default {
   providers: [
-    Google({allowDangerousEmailAccountLinking: true}),
+    Google({
+      allowDangerousEmailAccountLinking: true, 
+      authorization: {
+      params: {
+        prompt: "select_account"
+      }
+    }}),
     Github({allowDangerousEmailAccountLinking: true}),
     Credentials({
       async authorize(credentials) {
