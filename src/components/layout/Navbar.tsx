@@ -3,7 +3,7 @@
 import { styles } from "@/lib/styles";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { RxHamburgerMenu } from "react-icons/rx";
 import UserButton from "../auth/buttons/user-button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -69,6 +69,14 @@ const NavItems = ({ type }: { type: 'mobile' | 'desktop' }) => {
 }
 
 const Navbar = () => {
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl')
+
+ if (callbackUrl === '/auth/mobile' || pathname.includes('/auth/mobile')) {
+    return null;
+  }
 
   return (
     <nav className="bg-white sticky top-0 inset-x-0 h-16">

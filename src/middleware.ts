@@ -1,6 +1,6 @@
 import authConfig from "./auth.config"
 import NextAuth from "next-auth"
-import { apiAuthPrefix, authRoutes, defaultLoginRedirect, publicRoutes } from "./routes"
+import { apiAuthPrefix, authRoutes, defaultLoginRedirect, mobileAuthRoutes, publicRoutes } from "./routes"
 export const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
@@ -10,6 +10,7 @@ export default auth((req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+  const isMobileRoute = mobileAuthRoutes.includes(nextUrl.pathname)
   
   // 1:  We don't even need to check if the user is logged in or not here:
   if (isApiAuthRoute) {
@@ -18,7 +19,8 @@ export default auth((req) => {
 
   // 2: By default all users are allowed to visit this routes, but if a user is already logged it should be redirected to defaultLoginRedirect:
   if (isAuthRoute) {
-    if (isAuthenticated) {
+
+    if (isAuthenticated && !mobileAuthRoutes) {
       return Response.redirect(new URL(defaultLoginRedirect, nextUrl))
     }
     return

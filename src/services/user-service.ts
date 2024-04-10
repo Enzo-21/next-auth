@@ -1,9 +1,24 @@
 import { db } from "@/lib/db";
 import bcrypt from 'bcryptjs'
 
+function exclude<User extends Record<string, any>, Key extends keyof User>(
+    user: User | null,
+    keys: Key[]
+  ): Omit<User, Key> | null {
+    if (!user) return null;
+  
+    return Object.fromEntries(
+      Object.entries(user).filter(([key]) => !keys.includes(key as Key))
+    ) as Omit<User, Key>;
+  }
+  
+  
+
 const getUserByEmail = async (email: string) => {
     try {
         const user = await db.user.findUnique({ where: { email } })
+        /* const userWithoutPassword = exclude(user, ['password'])
+        return userWithoutPassword */
         return user
     } catch (error) {
         return null
@@ -13,6 +28,8 @@ const getUserByEmail = async (email: string) => {
 const getUserById = async (id: string) => {
     try {
         const user = await db.user.findUnique({ where: { id } })
+       /*  const userWithoutPassword = exclude(user, ['password'])
+        return userWithoutPassword */
         return user
     } catch (error) {
         return null

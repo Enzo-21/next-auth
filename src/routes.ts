@@ -32,6 +32,15 @@ const authRoutes: string[] = [
 ]
 
 /**  
+ * An array of routes used to authenticate users from external mobile apps.
+ * These routes should be only used for mobile apps.
+ * @type {string[]} 
+**/
+const mobileAuthRoutes: string[] = [
+    '/auth/mobile',
+]
+
+/**  
  * The prefix for API authentication routes.
  * Routes that start with this prefix are used for API authentication prefix
  * @type {string} 
@@ -48,5 +57,6 @@ export {
     publicRoutes,
     authRoutes,
     apiAuthPrefix,
-    defaultLoginRedirect
+    defaultLoginRedirect,
+    mobileAuthRoutes
 }
