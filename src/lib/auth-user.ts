@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import { TokensService } from "@/services/tokens-service"
 import { UserService } from "@/services/user-service"
-import { NextApiRequest } from "next"
+import { NextRequest } from "next/server"
 import { headers } from "next/headers"
 import { Session } from "next-auth"
 

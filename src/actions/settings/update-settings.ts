@@ -6,9 +6,8 @@ import { sendVerificationEmail } from "@/lib/mailing"
 import { SettingsSchema } from "@/schemas"
 import { TokensService } from "@/services/tokens-service"
 import { UserService } from "@/services/user-service"
-import { z } from "zod"
 import bcrypt from 'bcryptjs'
-import { NextApiRequest } from "next"
+import { z } from "zod"
 
 export const updateSettings = async (
     values: z.infer<typeof SettingsSchema>,
