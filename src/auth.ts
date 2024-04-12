@@ -9,7 +9,7 @@ import { AccountsService } from "./services/accounts-service"
 
 // Neccessary for adding the custom user properties to the session.user object:
 declare module "next-auth" {
-  interface Session {
+  export interface Session {
     user: {
       role: string,
       is2FAenabled: boolean

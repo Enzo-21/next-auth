@@ -14,7 +14,8 @@
 **/
 const publicRoutes: string[] = [
     '/',
-    '/auth/email-verification'
+    '/auth/email-verification',
+    '/api/settings',
 ]
 
 

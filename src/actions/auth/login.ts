@@ -15,7 +15,6 @@ const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string) 
 
     // Client side validation can easily be bypassed by some attacker. So we validate this on the server
     const validatedFields = LoginSchema.safeParse(values)
-    console.log(callbackUrl || 'No existe');
     
     if (!validatedFields.success) {
         return { error: "Invalid fields" }

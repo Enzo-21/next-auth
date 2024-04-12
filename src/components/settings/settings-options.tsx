@@ -103,7 +103,6 @@ const SettingsOptions = () => {
                                 <p
                                     className={cn("text-[0.8rem] font-medium text-popover-foreground")}
                                 >
-                                    Hello
                                 </p>
                                 <FormMessage />
                             </FormItem>
