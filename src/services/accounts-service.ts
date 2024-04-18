@@ -1,14 +1,14 @@
 import { db } from "@/lib/db"
 
-const getAccountByUserId = async (userId: string) => {
+const getAccountsByUserId = async (userId: string) => {
     try {
-        const account = await db.account.findFirst({ where: { userId } })
-        return account
+        const accounts = await db.account.findMany({ where: { userId } })
+        return accounts
     } catch (error) {
         return null
     }
 }
 
 export const AccountsService = {
-    getAccountByUserId
+    getAccountsByUserId
 }

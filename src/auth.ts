@@ -34,7 +34,27 @@ export const {
   },
 
   events: {
-    async linkAccount({ user }) {
+    async linkAccount({ user, account }) {
+         // Get the existing accounts for the user with the same provider
+    const existingAccounts = await db.account.findMany({
+      where: {
+        userId: user.id,
+        provider: account.provider,
+        NOT: {
+          providerAccountId: account.providerAccountId // Exclude the providerAccountId because its always different
+        }
+      }
+    });
+    
+
+    // Delete the existing accounts: by default the prisma adapter linkAccount function creates a new account everytime the user signs in. To avoid having multiple (and expired) accounts for the same user, we only want to store the most up to date account.
+    for (const existingAccount of existingAccounts) {
+      await db.account.delete({
+        where: {
+          id: existingAccount.id
+        }
+      });
+    }
       await db.user.update({
         where: { id: user.id },
         data: { emailVerified: new Date() } // We use date for verifying email because it's better than a boolean. In case our app changes some privacy settings or a user has not verified the email in a long time, we can simply know this with the date.
@@ -91,8 +111,7 @@ export const {
       if (!existingUser) return token
 
       // If the user exists:
-
-      const linkedAccount = await AccountsService.getAccountByUserId(existingUser.id)
+      const linkedAccount = await AccountsService.getAccountsByUserId(existingUser.id)
 
       token.isOAuth = !!linkedAccount
       token.role = existingUser.role
